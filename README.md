@@ -19,18 +19,24 @@
         before (request) {
             // abort previous request, if exists
             if (this.previousRequest) {
-                this.previousRequest.abort()
+                this.previousRequest.abort() // 若上一个请求存在 则终止请求
             }
-            this.previousRequest = request
+            this.previousRequest = request // 赋值为最新的请求
         }
     }).then((res) => {
-        if (res.data.error_flag) {
-            _this.myEchart.hideLoading()
-            this.$alert(res.data.error_message)
-        } else {
-            this.setData(res.data)
-        }
+
     }, (err) => {
 
     })
+
+    /**
+     * 离开守卫
+     */
+    beforeRouteLeave (to, from, next) {
+        // abort previous request, if exists
+        if (this.previousRequest) {
+            this.previousRequest.abort() // 离开页面是存在请求则终止
+        }
+        next()
+    }
 </pre>
