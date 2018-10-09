@@ -11,21 +11,23 @@
                 previousRequest: null
             }
         },
-        // 发出请求之前 给previousRequest 赋值
-        this.$http.get(url, {
-            params: option,
-            before (request) {
-                // abort previous request, if exists
-                if (this.previousRequest) {
-                    this.previousRequest.abort() // 若上一个请求存在 则终止请求
+        methods: {
+            // 发出请求之前 给previousRequest 赋值
+            this.$http.get(url, {
+                params: option,
+                before (request) {
+                    // abort previous request, if exists
+                    if (this.previousRequest) {
+                        this.previousRequest.abort() // 若上一个请求存在 则终止请求
+                    }
+                    this.previousRequest = request // 赋值为最新的请求
                 }
-                this.previousRequest = request // 赋值为最新的请求
-            }
-        }).then((res) => {
+            }).then((res) => {
 
-        }, (err) => 
+            }, (err) => 
 
-        }),
+            })
+        },
         /**
         * 离开守卫 离开页面
         */
@@ -38,7 +40,60 @@
         }
     
 ``` 
-2. vue中计算属性和方法的区别
+2. vue 引入富文本 使用插件vue-quill-editor，还需要引入富文本样式
+* 引入
+``` js
+    import VueQuillEditor from 'vue-quill-editor'
+    import 'quill/dist/quill.core.css'
+    import 'quill/dist/quill.snow.css'
+    import 'quill/dist/quill.bubble.css' // 这三个样式文件可以在入口js中引入，一次引入多出使用
+    export default {
+        components: {
+            quillEditor  // 局部引入组件
+        },
+        data() {
+            return {
+                editorOption:{ // 富文本配置项
+
+                }
+            }
+        },
+        computed:{
+
+        },
+        methods: {
+            /**
+            * reday
+            */
+            onEditorReady (event, myQuillEditor) {
+                // 富文本禁用
+                this.$refs[myQuillEditor].quill.enable(false) // 禁用
+            },
+            // 失去焦点
+            onEditorBlur(event) {
+                // do something
+            },
+            // 获取焦点
+            onEditorFocus() {
+
+            }
+        }
+    }
+
+```
+* 使用
+``` html
+    <quill-editor
+        v-model="form.description"
+        ref="descriptionQuillEditor"
+        class="editor"
+        @ready="onEditorReady($event, 'descriptionQuillEditor')"
+        @blur="onEditorBlur($event)"
+        @focus=""
+        :options="editorOption">
+    </quill-editor>
+```
+    
 
     
 
