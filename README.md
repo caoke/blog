@@ -3,14 +3,14 @@
     分为vue、js、css、webpack
 #### vue 
 1. vue ajax请求当离开页面或者点击查询中断上一个请求
-    <pre><code>
+``` js
         // 在data中初始化变量previousRequest
         data() {
             return{
                 url: '',
                 previousRequest: null
             }
-        }
+        },
         // 发出请求之前 给previousRequest 赋值
         this.$http.get(url, {
             params: option,
@@ -23,12 +23,11 @@
             }
         }).then((res) => {
 
-        }, (err) => {
+        }, (err) => 
 
-        })
-
+        }),
         /**
-        * 离开守卫
+        * 离开守卫 离开页面
         */
         beforeRouteLeave (to, from, next) {
             // abort previous request, if exists
@@ -37,4 +36,14 @@
             }
             next()
         }
-    </code></pre>
+    
+``` 
+2. vue中计算属性和方法的区别
+
+    
+
+***
+#### js
+
+***
+#### webpack
