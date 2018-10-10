@@ -99,6 +99,9 @@
 
 ***
 #### js
-
+* 设置npm指向npm镜像
+``` npm config set registry https://registry.npmjs.org```
+* 设置淘宝镜像
+``` npm config set registry https://registry.npm.taobao.org```
 ***
 #### webpack
