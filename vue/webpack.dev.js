@@ -13,8 +13,8 @@ module.exports = merge(common, {
         compress: true,
         proxy: {
             '/': {
-                target: 'http://idsp-fc.sit.sf-express.com',
-                // target: 'http://10.118.45.51:8080',
+                target: '',
+                // target: '',
                 pathRewrite: {'^/': '/'}
             }
 		}
