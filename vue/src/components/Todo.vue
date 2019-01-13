@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 export default {
     name: "todo",
     props: ['text','done'],
@@ -30,6 +31,8 @@ export default {
             this.$emit("update:done", this.isDone)
             // v-model 实现数据绑定 触发事件名为input
             // this.$emit("input", this.isDone);  // <-- 注意事件名称变了
+            window.bus = window.bus ? window.bus : new Vue()
+            window.bus.$emit('tellComB', '土豆土豆我是南瓜')
         }
     }
 

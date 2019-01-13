@@ -63,7 +63,8 @@ module.exports = {
         extensions: ['.js', '.jsx'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
-            '~': path.resolve(__dirname, 'src/components')
+            '~': path.resolve(__dirname, 'src/components'),
+            'vue': 'vue/dist/vue.js'
         }
     },
 
