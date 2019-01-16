@@ -9,10 +9,10 @@ const store = new Vuex.Store({
     state: {
         clickCount: 0,
         todos: [
-            { text: "Learn JavaScript", done: false },
-            { text: "Learn Vue", done: false },
-            { text: "Play around in JSFiddle", done: true },
-            { text: "Build something awesome", done: true }
+            { text: "learn JavaScript", done: false },
+            { text: "learn Vue", done: false },
+            { text: "play around in JSFiddle", done: true },
+            { text: "build something awesome", done: true }
         ]
     },
     getters,

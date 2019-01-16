@@ -26,13 +26,20 @@
         <transition name="fade">
             <router-link :to="{path: '/detail/3'}" tag="button">点击查看详情</router-link>
         </transition>
-        <h2>已经完成的事情列表</h2>
+        <h2>已经完成的任务列表</h2>
         <ol>
             <li v-for="todo in doneTodos">
                 {{todo.text}}
             </li>
         </ol>
-        
+        <h2>任务首字母大写</h2>
+        <ol v-for="todo in doneTodos">
+            <li>{{ todo.text | capitalize(todos)}}</li>
+        </ol>
+        <h2>字符串反转</h2>
+        <ol v-for="todo in doneTodos">
+            <li>{{ todo.text | capitalize(todos) | reverseStr }}</li>
+        </ol>
     </div>
 </template>
 
@@ -51,6 +58,21 @@ export default {
     data() {
         return {
             donedData: []
+        }
+    },
+    filters: {
+        capitalize: function (value,todos) {
+            // 获取不到this 
+            console.log(this)
+            console.log(todos)
+            if (!value) return ''
+            value = value.toString()
+            return value.charAt(0).toUpperCase() + value.slice(1)
+        },
+        reverseStr(value) {
+            if (!value) return ''
+            value = value.toString()
+            return value.split("").reverse().join("")
         }
     },
     computed: {
@@ -78,6 +100,15 @@ export default {
     },
     mounted() {
         
+    },
+    // 组件内离开守卫
+    beforeRouteLeave (to, from , next) {
+        const answer = window.confirm('Do you really want to leave? you have unsaved changes!')
+        if (answer) {
+            next()
+        } else {
+            next(false)
+        }
     }
 }
 </script>
