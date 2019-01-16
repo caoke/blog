@@ -1,7 +1,8 @@
 import 'babel-polyfill'
 import Vue from 'vue'
-import store from './store'
 import router from './routes'
+import store from './store'
+import 'vue-awesome/icons'
 import App from './components/App.vue'
 
 // 中间组件
@@ -14,7 +15,7 @@ Vue.directive('demo', function (el, binding) {
     el.innerHTML = binding.value.text
 })
 
-// 1 注册全局组件  
+// 1 注册全局组
 Vue.component('my-component', {
     // template 只能有一个根元素
     template: '<p>A custom component!</p>',

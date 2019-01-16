@@ -1,5 +1,6 @@
 <template>
     <div class="list">
+        <p><router-link :to="{path: '/add'}">新建</router-link></p>
         <!-- todoList 数据双向绑定 -->
         <h2>Todos ({{ countDone }}/{{ count }}):</h2>
         <ol>
@@ -17,10 +18,21 @@
             </li>
         </ol>
         <div v-demo="{ color: 'red', text: 'hello!' }"></div>
-        <router-link :to="{path: '/add'}">新建</router-link>
-        <!-- app.vue -->
+        
+        <button @click="changeClickCount">点击我</button>
+        <span>{{clickCount}}</span>
+
         <my-component></my-component>
-        <add></add>
+        <transition name="fade">
+            <router-link :to="{path: '/detail/3'}" tag="button">点击查看详情</router-link>
+        </transition>
+        <h2>已经完成的事情列表</h2>
+        <ol>
+            <li v-for="todo in doneTodos">
+                {{todo.text}}
+            </li>
+        </ol>
+        
     </div>
 </template>
 
@@ -28,6 +40,7 @@
 import Todo from '~/todo.vue'
 import Add from '~/Add.vue'
 import Vue from 'vue'
+import {mapGetters, mapState, mapActions } from 'vuex'
 
 export default {
     name: 'todoList',
@@ -37,51 +50,51 @@ export default {
     },
     data() {
         return {
-            todos: [
-                { text: "Learn JavaScript", done: false },
-                { text: "Learn Vue", done: false },
-                { text: "Play around in JSFiddle", done: true },
-                { text: "Build something awesome", done: true }
-            ]
+            donedData: []
         }
     },
     computed: {
+        ...mapState([
+           'clickCount',
+            'todos'
+        ]),
+        ...mapGetters(['doneTodos']),
         count() {
             return this.todos.length;
         },
         countDone() {
-            return this.todos.filter(todo => todo.done).length;
+            return this.doneTodos.length
         }
     },
     watch:{
 
     },
     methods:{
-       
-    },
-    beforeCreate() {
-        console.log('bc',this.$el, this.todos)
-    },
-    created() {
-        console.log('c', this.$el, this.todos)
-    },
-    beforeMount() {
-        console.log('bm', this.$el)
+        ...mapActions(["addClickCount"]), // 将 `this.addClickCount()` 映射为 `this.$store.commit('addClickCount')`
+        changeClickCount() {
+            // this.$store.commit('increment')
+            this.addClickCount()
+        }
     },
     mounted() {
-        console.log('m', this.$el)
         
-    },
-    beforeUpdate() {
-        console.log('bu', this.$el, this.todos)
-    },
-    updated() {
-        console.log('u', this.$el, this.todos)
     }
-
 }
 </script>
 
 <style>
-
+div{
+    width: 50%;
+    margin: 10px;
+}
+a{
+    text-decoration: none;
+    color: blue;
+}
+.fade-enter-active, .fade-leave-active{
+    transition: opacity 10s;
+}
+.fade-enter, .fade-leave-active{
+    opacity: 0;
+}
 </style>
