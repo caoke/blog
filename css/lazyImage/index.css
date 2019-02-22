@@ -1,0 +1,13 @@
+html,body {
+    height: 100%;
+    width: 100%;
+}
+img{
+    width: 490px;
+    height: 242px;
+    background-position: center;
+    background-size: cover;
+}
+.lazy-image {
+    background: url('./image/loading.gif') no-repeat center;
+  }
