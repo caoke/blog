@@ -94,6 +94,42 @@
     </quill-editor>
 ```
     
+3、vue更新视图机制
+
+```由于VUE的数据驱动视图更新，是异步的，即修改数据的当下，视图不会立刻更新，而是等同一事件循环中的所有数据变化完成之后，再统一进行视图更新```
+
+```js
+    /**
+    * 提交校验 这个函数中 isSaveLoad若想要立即更新视图则需要执行完onSubmit 中* 的所有数据变化完成 所以用了setTimeout
+    */
+    onSubmit (form) {
+        let _this = this
+        this.isSaveLoad = true
+        setTimeout(function () {
+            // 判断是否 选择了配置项
+            _this.checkSelect()
+            // 判断是否 选择了配置项
+            if (_this.selectError) {
+                _this.isSaveLoad = false
+                return false
+            }
+            if (_this.isRoadUpload || _this.isStorageUpload) {
+                _this.isSaveLoad = false
+                return _this.$message.warning('请等待文件上传完成后操作')
+            }
+            _this.$refs.form.validate((valid) => {
+                if (valid) {
+                    // 提交方案
+                    _this.submitScheme()
+                } else {
+                    _this.isSaveLoad = false
+                    return false
+                }
+            })
+        }, 0)
+    }
+```
+
 
     
 
