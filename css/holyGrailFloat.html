@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>圣杯布局</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            .header, .footer {
+                border: 1px solid #333;
+                background: #ccc;
+                text-align: center;
+            }
+            .footer {
+                clear: both;
+            }
+
+            .container {
+                padding:0 220px 0 200px;
+                overflow: hidden;
+            }
+            .left, .middle, .right {
+                position: relative;
+                float: left;
+                min-height: 130px;
+            }
+            .middle {
+                width: 100%;
+                background: blue;
+            }
+            .left {
+                margin-left: -100%;
+                left: -200px;
+                width: 200px;
+                background: red;
+            }
+            .right {
+                margin-left: -220px;
+                right: -220px;
+                width: 220px;
+                background: green;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            什么是圣杯布局？
+            <ul>
+                <li>上部(header)和下部(footer)各自占领屏幕所有宽度。</li>
+                <li>上下部之间的部分(container)是一个三栏布局。</li>
+                <li> 三栏布局两侧宽度不变，中间部分自动填充整个区域。</li>
+                <li> 中间部分的高度是三栏中最高的区域的高度。</li>
+            </ul>
+        </div>
+        <div class="header">
+            header
+        </div>
+        <div class="container">
+            <div class="middle">
+                <h4>middle</h4>
+                <p>middle-content</p>
+            </div>
+            
+            <div class="left">
+                <h4>left</h4>
+                <p>left-content</p>
+            </div>
+            
+            <div class="right">
+                <h4>right</h4>
+                <p>right-content</p>
+            </div>
+        </div>
+        <div class="footer">
+            footer
+        </div>
+    </body>
+</html>
