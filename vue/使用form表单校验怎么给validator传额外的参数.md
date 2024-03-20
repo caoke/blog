@@ -1,0 +1,86 @@
+##### 背景
+前端经常会遇到各种表单校验，最近遇到在table中设置某个输入框，需要校验该输入框最大值最小值，并且最大值不固定是根据同一行中的某个字段来定，这就需要在使用validator函数是获取到最大值。那么我们应该怎么处理呢？
+
+---
+##### validator基本用法
+1. 在form表单中添加rules
+```
+// template
+<el-table>
+ <el-table-column>
+  <template slot-scope="scope">
+   <el-form :model="scope.row" :rules="rules" :ref="scope.row.sku_id">
+     <el-form-item label="" prop="qty">
+       <el-input-number v-model="scope.row.qty" :min="1" :max="scope.row.available_qty" :controls="false"
+        :precision="0" placeholder="Please Input"></el-input-number>
+     </el-form-item>
+   </el-form>
+  </template>
+ </el-table-column>
+</el-table>
+```
+
+2. 在rules中自定义校验方法
+    
+```
+computed: {
+    rules() { 
+        const validator = (rule, value, cb) => { // validator默认的参数
+          if (!value) {
+            return cb(new Error(this.$t('tableCommonRequiredField')));
+          }
+          // 这里缺少最大值的校验
+          cb();
+        };
+        return {
+            qty: [
+                { required: true, message: this.$gt('qty is required'), trigger: 'change' },
+                {
+                    validator: validator // 自定义校验方法
+                }
+            ]
+        }
+    }
+},
+
+```
+
+---
+##### 从上面的代码可以看出validator接受的三个参数都是固定值，没有办法传递row信息， 那要怎么才能向validator传递而外的参数
+
+修改方案：
+
+```
+// 修改表单校验方案
+<el-form :model="scope.row" :rules="validatorQty(scope.row)" :ref="scope.row.sku_id">
+
+```
+
+```
+methods: {
+//新增 validatorQty方法
+    validatorQty(row) { // 获取row信息
+      // 返回的是rules
+      return {
+        qty: [
+          { required: true, message:'input is required', trigger: 'blur' },
+          { validator: (rule, value, cb) => {
+            if (value < 1) {
+              cb(new Error(this.$t('input is invalid')));
+              return;
+            }
+            if (value > row.available_qty) { // 动态获取最大值
+              cb(new Error(this.$t('input is invalid')));
+              return;
+            }
+            cb();
+          }, trigger: 'blur' }
+        ]
+      };
+    }
+}
+```
+
+---
+##### 总结
+其实就是在rules上封装一层，用来获取额外的参数，来完成校验。
